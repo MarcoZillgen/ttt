@@ -103,19 +103,21 @@ export default function Page() {
       style={{ backgroundColor: colors[playerTurn] }}
     >
       <div
-        className="grid grid-cols-3 gap-4 aspect-square landscape:h-full p-4 portrait:w-full"
+        className="grid grid-cols-3 gap-1 aspect-square landscape:h-full p-4 portrait:w-full"
         style={{ backgroundColor: colors.background }}
       >
         {gameState && gameIsWon(gameState) ? (
           <div
             className="col-span-3 text-center text-2xl font-bold rounded grid place-items-center"
             style={{ backgroundColor: colors[winner(gameState)!] }}
-          >WINNER</div>
+          >
+            WINNER
+          </div>
         ) : (
           gameState?.map((board, index) => (
             <div
               key={index}
-              className="grid grid-cols-3 gap-3 aspect-square rounded-lg overflow-hidden p-2"
+              className="grid grid-cols-3 gap-2 aspect-square rounded-lg overflow-hidden p-2"
               style={{
                 background:
                   focusedCell === index
