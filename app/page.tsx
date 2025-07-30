@@ -21,10 +21,14 @@ type GameState = [
 ];
 
 const colors = {
-  X: "#84BC9C",
-  O: "#F46197",
-  background: "#FFFDF780",
+  X: "#E5989B", // Coral Sand
+  O: "#84A59D", // Seafoam Green
+  background: "#F6FFF8", // Dune Mist
+  border: "#000000", // Black
+  cell: "#DDE5B6", // Coastal Grass
 };
+
+
 
 const winningCombinations = [
   [0, 1, 2],
@@ -100,15 +104,9 @@ export default function Page() {
   return (
     <div
       className="flex w-screen h-screen items-center justify-center"
-      style={{ backgroundColor: colors[playerTurn] }}
+      style={{ backgroundColor: colors.background }}
     >
-      <div
-        className="grid grid-cols-3 gap-1 aspect-square landscape:h-full portrait:w-full"
-        style={{
-          backgroundColor: colors.background,
-          boxShadow: "0 0 20px 10px "+ colors.background,
-        }}
-      >
+      <div className="grid grid-cols-3 gap-1 aspect-square landscape:h-full portrait:w-full">
         {gameState && gameIsWon(gameState) ? (
           <div
             className="col-span-3 text-center text-2xl font-bold rounded grid place-items-center"
@@ -122,7 +120,7 @@ export default function Page() {
               key={index}
               className="grid grid-cols-3 gap-2 aspect-square rounded-lg overflow-hidden p-2"
               style={{
-                background:
+                backgroundColor:
                   focusedCell === index
                     ? colors[playerTurn] + "80"
                     : "transparent",
@@ -130,26 +128,33 @@ export default function Page() {
             >
               {XWonBoard(board) ? (
                 <div
-                  className="border size-full aspect-square rounded-lg flex items-center justify-center col-span-3"
-                  style={{ backgroundColor: colors.X }}
+                  className="border-2 size-full aspect-square rounded-lg flex items-center justify-center col-span-3"
+                  style={{
+                    backgroundColor: colors.X,
+                    borderColor: colors.border,
+                  }}
                 ></div>
               ) : OWonBoard(board) ? (
                 <div
-                  className="border size-full aspect-square rounded-lg flex items-center justify-center col-span-3"
-                  style={{ backgroundColor: colors.O }}
+                  className="border-2 size-full aspect-square rounded-lg flex items-center justify-center col-span-3"
+                  style={{
+                    backgroundColor: colors.O,
+                    borderColor: colors.border,
+                  }}
                 ></div>
               ) : (
                 board.map((cell, cellIndex) => (
                   <div
                     key={cellIndex}
-                    className="border flex items-center justify-center size-full aspect-square rounded-lg"
+                    className="border-2 flex items-center justify-center size-full aspect-square rounded-lg"
                     style={{
                       backgroundColor:
                         cell === "X"
                           ? colors.X
                           : cell === "O"
                           ? colors.O
-                          : colors.background,
+                          : colors.cell,
+                      borderColor: colors.border,
                     }}
                     onClick={() => {
                       if (cell || !gameState) return;
