@@ -103,8 +103,11 @@ export default function Page() {
       style={{ backgroundColor: colors[playerTurn] }}
     >
       <div
-        className="grid grid-cols-3 gap-1 aspect-square landscape:h-full p-4 portrait:w-full"
-        style={{ backgroundColor: colors.background }}
+        className="grid grid-cols-3 gap-1 aspect-square landscape:h-full portrait:w-full"
+        style={{
+          backgroundColor: colors.background,
+          boxShadow: "0 0 20px 10px "+ colors.background,
+        }}
       >
         {gameState && gameIsWon(gameState) ? (
           <div
