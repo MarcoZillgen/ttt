@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 type Player = "X" | "O";
 
@@ -17,7 +17,7 @@ type GameState = [
   Board,
   Board,
   Board,
-  Board
+  Board,
 ];
 
 const colors = {
@@ -27,8 +27,6 @@ const colors = {
   border: "#000000", // Black
   cell: "#DDE5B6", // Coastal Grass
 };
-
-
 
 const winningCombinations = [
   [0, 1, 2],
@@ -41,15 +39,21 @@ const winningCombinations = [
   [2, 4, 6],
 ];
 
+function generateEmptyGameState(): GameState {
+  return Array(9)
+    .fill(null)
+    .map(() => Array(9).fill(null)) as GameState;
+}
+
 function XWonBoard(board: Board): boolean {
   return winningCombinations.some((combination) =>
-    combination.every((index) => board[index] === "X")
+    combination.every((index) => board[index] === "X"),
   );
 }
 
 function OWonBoard(board: Board): boolean {
   return winningCombinations.some((combination) =>
-    combination.every((index) => board[index] === "O")
+    combination.every((index) => board[index] === "O"),
   );
 }
 
@@ -57,7 +61,7 @@ function isWonBoard(board: Board): boolean {
   return winningCombinations.some(
     (combination) =>
       combination.every((index) => board[index] === "X") ||
-      combination.every((index) => board[index] === "O")
+      combination.every((index) => board[index] === "O"),
   );
 }
 
@@ -73,7 +77,13 @@ function gameIsWon(gameState: GameState): boolean {
   return winningCombinations.some(
     (combination) =>
       combination.every((index) => OWonBoard(gameState[index])) ||
-      combination.every((index) => XWonBoard(gameState[index]))
+      combination.every((index) => XWonBoard(gameState[index])),
+  );
+}
+
+function gameEnded(gameState: GameState): boolean {
+  return (
+    gameIsWon(gameState) || gameState.every((board) => unableToFocus(board))
   );
 }
 
@@ -90,29 +100,50 @@ function winner(gameState: GameState): Player | null {
 }
 
 export default function Page() {
-  const [gameState, setGameState] = useState<GameState>();
+  const [gameState, setGameState] = useState<GameState>(
+    generateEmptyGameState(),
+  );
   const [playerTurn, setPlayerTurn] = useState<Player>("X");
   const [focusedCell, setFocusedCell] = useState<number | null>(null);
-
-  useEffect(() => {
-    const initialBoard: GameState = Array(9)
-      .fill(null)
-      .map(() => Array(9).fill(null) as Board) as GameState;
-    setGameState(initialBoard);
-  }, []);
+  // [x,o]
+  const [points, setPoints] = useState<Record<Player, number>>({ X: 0, O: 0 });
 
   return (
     <div
-      className="flex w-screen h-screen items-center justify-center"
+      className="flex w-screen h-screen items-center justify-center portrait:flex-col"
       style={{ backgroundColor: colors.background }}
     >
+      <span className="w-full h-full flex items-center justify-center">
+        {points.X}
+      </span>
       <div className="grid grid-cols-3 gap-1 aspect-square landscape:h-full portrait:w-full">
-        {gameState && gameIsWon(gameState) ? (
+        {gameState && gameEnded(gameState) ? (
           <div
             className="col-span-3 text-center text-2xl font-bold rounded grid place-items-center"
-            style={{ backgroundColor: colors[winner(gameState)!] }}
+            style={{
+              backgroundColor:
+                winner(gameState) == null
+                  ? colors.cell
+                  : colors[winner(gameState)!],
+            }}
           >
-            WINNER
+            {winner(gameState) == null
+              ? "IT'S A DRAW!"
+              : `${winner(gameState)} WINS!`}
+            <button
+              onClick={() => {
+                const initialBoard: GameState = Array(9)
+                  .fill(null)
+                  .map(() => Array(9).fill(null) as Board) as GameState;
+                setGameState(initialBoard);
+                if (winner(gameState) == null) return;
+                const newPoints = { X: points.X, O: points.O };
+                newPoints[winner(gameState)!]++;
+                setPoints(newPoints);
+              }}
+            >
+              ONE MORE TIME
+            </button>
           </div>
         ) : (
           gameState?.map((board, index) => (
@@ -152,8 +183,8 @@ export default function Page() {
                         cell === "X"
                           ? colors.X
                           : cell === "O"
-                          ? colors.O
-                          : colors.cell,
+                            ? colors.O
+                            : colors.cell,
                       borderColor: colors.border,
                     }}
                     onClick={() => {
@@ -161,7 +192,9 @@ export default function Page() {
                       if (focusedCell !== null && focusedCell !== index) {
                         return;
                       }
-                      const newGameState = [...gameState];
+                      const newGameState = [
+                        ...(gameState.map((b) => [...b]) as GameState),
+                      ];
                       newGameState[index][cellIndex] = playerTurn;
                       setGameState(newGameState as GameState);
                       setPlayerTurn(playerTurn === "X" ? "O" : "X");
@@ -178,6 +211,9 @@ export default function Page() {
           ))
         )}
       </div>
+      <span className="w-full h-full flex items-center justify-center">
+        {points.O}
+      </span>
     </div>
   );
 }

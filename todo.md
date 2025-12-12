@@ -1,0 +1,4 @@
+- [ ] show who's move it is
+- [ ] o and x symbol instead of colors (settings?)
+- [ ] better ux for boards that are a draw
+- [ ] refactor to make the code not suck
