@@ -1,4 +1,5 @@
 import { useGame } from "../context/game";
+import { XIcon, OIcon } from "./Icons";
 
 export function Scoreboard() {
   return (
@@ -15,17 +16,9 @@ function ScoreValue() {
 
   return (
     <div className="grid grid-cols-3 gap-4 text-stone-300 place-items-center border-stone-700 border-4 p-2 w-full">
-      <span
-        className={`text-xl text-stone-500 transition-all ${player === "X" ? "scale-125 !text-x" : ""}`}
-      >
-        X
-      </span>
+      <XIcon activated={player === "X"} />
       <span className="text-xl text-stone-500">Ties</span>
-      <span
-        className={`text-xl text-stone-500 transition-all ${player === "O" ? "scale-125 !text-o" : ""}`}
-      >
-        O
-      </span>
+      <OIcon activated={player === "O"} />
       <span
         className={`text-xl font-bold transition-all ${player === "X" ? "scale-125 !text-x" : ""}`}
       >

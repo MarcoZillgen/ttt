@@ -23,8 +23,8 @@ export function GameOverOverlay() {
         ) : (
           <div className="flex flex-col items-center gap-4">
             <div className="w-16 h-16 md:w-24 md:h-24">
-              {winner === "X" && <XIcon />}
-              {winner === "O" && <OIcon />}
+              {winner === "X" && <XIcon activated={true} />}
+              {winner === "O" && <OIcon activated={true} />}
             </div>
             <h1 className="text-4xl md:text-6xl font-bold text-white">Wins!</h1>
           </div>

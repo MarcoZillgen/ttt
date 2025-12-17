@@ -71,7 +71,7 @@ function CellBuilder({
       className={`p-1 bg-stone-900 transition-all ${clickable ? "cursor-pointer hover:bg-stone-800" : ""}`}
       onClick={dispatch}
     >
-      {cell === "X" ? <XIcon /> : cell === "O" ? <OIcon /> : ""}
+      {cell === "X" ? <XIcon activated={true} /> : cell === "O" ? <OIcon activated={true} /> : ""}
     </div>
   );
 }
