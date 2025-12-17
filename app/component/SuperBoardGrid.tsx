@@ -7,7 +7,7 @@ export function SuperBoardGrid() {
   const { game, dispatch } = useGame();
 
   return (
-    <div className="md:size-[80vmin] size-[90vmin] landscape:lg:size-[80vmin] landscape:size-[70vmin] grid gap-4 grid-cols-3 grid-rows-3">
+    <div className="md:size-[80vmin] size-[90vmin] landscape:lg:size-[80vmin] landscape:size-[70vmin] grid gap-2 md:gap-4 grid-cols-3 grid-rows-3">
       {game.superBoard.map((subBoard, subBoardIndex) => (
         <SubBoardGrid
           key={subBoardIndex}
@@ -43,7 +43,7 @@ function SubBoardGrid({
   // else we show the whole subBoard
   return (
     <div
-      className={`w-full h-full grid gap-1 p-1 grid-cols-3 grid-rows-3 ${inFocus ? "bg-stone-500" : "bg-stone-700"}`}
+      className={`w-full h-full grid gap-0.5 md:gap-1  p-0.5 md:p-1 grid-cols-3 grid-rows-3 ${inFocus ? "bg-stone-500" : "bg-stone-700"}`}
     >
       {subBoard.map((cell, cellIndex) => (
         <CellBuilder
@@ -68,7 +68,7 @@ function CellBuilder({
 }) {
   return (
     <div
-      className={`p-1 bg-stone-900 transition-all ${clickable ? "cursor-pointer hover:bg-stone-800" : ""}`}
+      className={`p-0.5 md:p-1 bg-stone-900 transition-all ${clickable ? "cursor-pointer hover:bg-stone-800" : ""}`}
       onClick={dispatch}
     >
       {cell === "X" ? <XIcon activated={true} /> : cell === "O" ? <OIcon activated={true} /> : ""}
