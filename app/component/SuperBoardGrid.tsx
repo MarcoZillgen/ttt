@@ -7,7 +7,7 @@ export function SuperBoardGrid() {
   const { game, dispatch } = useGame();
 
   return (
-    <div className="md:size-[80vmin] size-[90vmin] grid gap-4 grid-cols-3 grid-rows-3">
+    <div className="md:size-[80vmin] size-[90vmin] landscape:lg:size-[80vmin] landscape:size-[70vmin] grid gap-4 grid-cols-3 grid-rows-3">
       {game.superBoard.map((subBoard, subBoardIndex) => (
         <SubBoardGrid
           key={subBoardIndex}

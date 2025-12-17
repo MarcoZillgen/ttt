@@ -2,7 +2,7 @@ import { useGame } from "../context/game";
 
 export function Scoreboard() {
   return (
-    <aside className="w-fit portrait:w-[80vw] h-fit flex landscape:flex-col gap-2">
+    <aside className="w-fit portrait:w-[90vw] portrait:md:w-[80vmin] h-fit flex landscape:flex-col gap-2">
       <ScoreValue />
       <Buttons />
     </aside>
