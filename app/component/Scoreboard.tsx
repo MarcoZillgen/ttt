@@ -2,6 +2,7 @@ import { useGame } from "../context/game";
 import { XIcon, OIcon } from "./Icons";
 
 export function Scoreboard() {
+  const {dispatch} = useGame();
   return (
     <aside className="w-fit portrait:w-[90vw] portrait:md:w-[80vmin] h-fit flex landscape:flex-col gap-2">
       <ScoreValue />
